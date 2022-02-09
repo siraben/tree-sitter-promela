@@ -22,13 +22,15 @@ module.exports = grammar({
             $._semi,
             // $.error
         ),
-        priority: $ => seq('priority', 'const'),
+        priority: $ => seq('priority', $._const),
         init: $ => seq('init', optional($.priority), $.body),
         _semi: $ => choice(';', $.arrow),
         arrow: $ => '->',
         proc: $ => choice(
-            seq(// optional($.inst),
-                'proctype', /\w+/, $.decl, $.body)
+            seq(//optional($.inst),
+                'proctype', $._name, $.decl, $.body,'(',$.decl,')',
+                optional($.priority))
+
         ),
         body: $ => seq('{', repeat(seq($.step, optional($._ms))), '}'),
         sequence: $ => prec.left(2,sep1($.step,optional($._ms))),
@@ -42,8 +44,8 @@ module.exports = grammar({
         ),
         _ms: $ => repeat1(';'),
         decl: $ => seq('(',
-            // optional($.entries),
-            ')'),
+                       // optional($.entries),
+                       ')'),
         step: $ => choice(
             $.one_decl,
             $.stmnt,
@@ -63,8 +65,8 @@ module.exports = grammar({
         printf: $ => seq('printf', '(', $.string, optional(seq(',', $.arg)), ')'),
         string: $ => seq('"', /(?:[^"\\]|\\.)*/, '"'),
         Special: $ => choice(
-            // seq($.varref, 'rcv', $.rargs),
-            // seq($.varref, 'snd', $.margs),
+            seq($.varref, '?', $.rargs),
+            seq($.varref, '!', $.margs),
             // seq($.for_pre,':',$.expr,'..',$.expr,')',$.for_post),
             // seq($.for_pre,'in',$.varref,')',$.for_post),
             seq('select','(', $.varref,':',$.expr,'..',$.expr,')'),
@@ -75,6 +77,18 @@ module.exports = grammar({
             // seq($.name,':',$.stmnt),
             // seq($.name,':'),
             // $.error
+        ),
+        rarg: $ => choice(
+            $.varref,
+            seq('eval','(',$.expr,')'),
+            'const',
+            seq('-','const'),
+        ),
+        rargs: $ => choice(
+            $.rarg,
+            seq($.rarg,',',$.rargs),
+            seq($.rarg,'(',$.rargs,')'),
+            seq('(',$.rargs,')'),
         ),
         if: $ => seq('if',repeat(seq('::',$.sequence,optional($._semi))),'fi'),
         for_pre: $ => seq('for','(',$.varref),
@@ -101,14 +115,14 @@ module.exports = grammar({
         full_expr: $ => choice($.expr, $.Expr),
         varref: $ => $.cmpnd,
         cmpnd: $ => choice($.pfld
-            //  $.sfld
-        ),
+                           //  $.sfld
+                          ),
         _name: $ => /\w+/,
         pfld: $ => choice($._name, seq($._name), '[', $.expr, ']'),
         sfld: $ => prec.right(1, sep1($.cmpnd, '.')),
-        type: $ => choice('bit','bool','byte','mtype'),
+        type: $ => choice('bit','bool','byte','chan','int','mtype','pid','short'),
         var_list: $ => commaSep1($.ivar),
-        _const: $ => choice('false', 'true','skip'),
+        _const: $ => choice('false', 'true','skip',$.number),
         vardcl: $ => prec.right(2,choice(
             $._name,
             seq($._name,':',$._const),
@@ -119,8 +133,8 @@ module.exports = grammar({
             $._const,
             prec.right(3,seq('-',$.const_expr)),
             seq('(',$.const_expr,')'),
-            prec.right(1,seq($.const_expr,'+',$.const_expr)),
-            prec.right(1,seq($.const_expr,'-',$.const_expr)),
+            prec.left(1,seq($.const_expr,'+',$.const_expr)),
+            prec.left(1,seq($.const_expr,'-',$.const_expr)),
             prec.right(2,seq($.const_expr,'*',$.const_expr)),
             // seq($.const_expr,'/',$.const_expr),
             // seq($.const_expr,'%',$.const_expr),
@@ -130,8 +144,19 @@ module.exports = grammar({
             $.vardcl,
             // seq($.vardcl,'=','{',$.c_list,'}'),
             seq($.vardcl,'=',$.expr),
-            // seq($.vardcl,'=',$.ch_init),
+            seq($.vardcl,'=',$.ch_init),
         ),
+        ch_init: $ => choice(
+            seq('[',$.const_expr,']','of'),
+            seq('{',$.typ_list,'}'),
+
+        ),
+        oname: $ => seq(':',$._name),
+        basetype: $ => choice(
+            seq($.type,optional($.oname)),
+            $.uname
+        ),
+        typ_list: $ => commaSep1($.basetype),
         // entries: $ => repeat1($.entry)
         expr: $ => choice(
             $.term,

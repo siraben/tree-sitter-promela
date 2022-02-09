@@ -16,6 +16,14 @@
           "named": true
         },
         {
+          "type": "margs",
+          "named": true
+        },
+        {
+          "type": "rargs",
+          "named": true
+        },
+        {
           "type": "varref",
           "named": true
         }
@@ -89,6 +97,29 @@
     }
   },
   {
+    "type": "basetype",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "oname",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        },
+        {
+          "type": "uname",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "body",
     "named": true,
     "fields": {},
@@ -98,6 +129,25 @@
       "types": [
         {
           "type": "step",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ch_init",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "const_expr",
+          "named": true
+        },
+        {
+          "type": "typ_list",
           "named": true
         }
       ]
@@ -128,6 +178,10 @@
       "types": [
         {
           "type": "const_expr",
+          "named": true
+        },
+        {
+          "type": "number",
           "named": true
         }
       ]
@@ -242,11 +296,34 @@
       "required": true,
       "types": [
         {
+          "type": "ch_init",
+          "named": true
+        },
+        {
           "type": "expr",
           "named": true
         },
         {
           "type": "vardcl",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "margs",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "arg",
+          "named": true
+        },
+        {
+          "type": "expr",
           "named": true
         }
       ]
@@ -266,6 +343,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "oname",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "one_decl",
@@ -352,7 +434,17 @@
   {
     "type": "priority",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "number",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "proc",
@@ -368,6 +460,10 @@
         },
         {
           "type": "decl",
+          "named": true
+        },
+        {
+          "type": "priority",
           "named": true
         }
       ]
@@ -395,6 +491,44 @@
         },
         {
           "type": "proc",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "rarg",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "varref",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "rargs",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "rarg",
+          "named": true
+        },
+        {
+          "type": "rargs",
           "named": true
         }
       ]
@@ -474,6 +608,21 @@
     }
   },
   {
+    "type": "typ_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "basetype",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "type",
     "named": true,
     "fields": {}
@@ -509,6 +658,10 @@
         {
           "type": "const_expr",
           "named": true
+        },
+        {
+          "type": "number",
+          "named": true
         }
       ]
     }
@@ -532,6 +685,10 @@
     "type": "vis",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "!",
+    "named": false
   },
   {
     "type": "\"",
@@ -594,6 +751,10 @@
     "named": false
   },
   {
+    "type": "?",
+    "named": false
+  },
+  {
     "type": "Expr",
     "named": true
   },
@@ -626,11 +787,19 @@
     "named": false
   },
   {
+    "type": "chan",
+    "named": false
+  },
+  {
     "type": "comment",
     "named": true
   },
   {
     "type": "const",
+    "named": false
+  },
+  {
+    "type": "eval",
     "named": false
   },
   {
@@ -658,6 +827,10 @@
     "named": false
   },
   {
+    "type": "int",
+    "named": false
+  },
+  {
     "type": "islocal",
     "named": false
   },
@@ -668,6 +841,14 @@
   {
     "type": "number",
     "named": true
+  },
+  {
+    "type": "of",
+    "named": false
+  },
+  {
+    "type": "pid",
+    "named": false
   },
   {
     "type": "printf",
@@ -683,6 +864,10 @@
   },
   {
     "type": "select",
+    "named": false
+  },
+  {
+    "type": "short",
     "named": false
   },
   {
