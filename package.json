@@ -11,5 +11,16 @@
   },
   "scripts": {
     "build": "tree-sitter generate && node-gyp build"
-  }
+  },
+  "tree-sitter": [
+     {
+       "file-types": [
+         "pml"
+       ],
+       "highlights": [
+         "queries/highlights.scm"
+       ],
+       "scope": "source.nix"
+     }
+   ]
 }

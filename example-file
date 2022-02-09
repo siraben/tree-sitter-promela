@@ -1,5 +1,0 @@
-proctype A()
-{
-    byte state;
-    state = 3;
-}

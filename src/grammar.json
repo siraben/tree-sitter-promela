@@ -33,6 +33,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "utype"
+        },
+        {
+          "type": "SYMBOL",
           "name": "_semi"
         }
       ]
@@ -122,6 +126,52 @@
         {
           "type": "SYMBOL",
           "name": "body"
+        }
+      ]
+    },
+    "utype": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "typedef"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "uname"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "one_decl"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "_semi"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "one_decl"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },
@@ -1218,8 +1268,13 @@
                 ]
               },
               {
-                "type": "SYMBOL",
-                "name": "uname"
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "uname"
+                },
+                "named": false,
+                "value": "type"
               },
               {
                 "type": "SYMBOL",
@@ -1613,14 +1668,14 @@
         "members": [
           {
             "type": "SYMBOL",
-            "name": "_name"
+            "name": "uname"
           },
           {
             "type": "SEQ",
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_name"
+                "name": "uname"
               },
               {
                 "type": "STRING",
@@ -1637,7 +1692,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_name"
+                "name": "uname"
               },
               {
                 "type": "STRING",
@@ -1658,7 +1713,7 @@
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_name"
+                "name": "uname"
               },
               {
                 "type": "STRING",
@@ -1666,7 +1721,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "_name"
+                "name": "uname"
               },
               {
                 "type": "STRING",

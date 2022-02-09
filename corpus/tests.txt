@@ -49,12 +49,13 @@ Crypt data, intercepted;
 
 (program
   (one_decl
-    (uname)
     (var_list
       (ivar
-        (vardcl))
+        (vardcl
+          (uname)))
       (ivar
-        (vardcl)))))
+        (vardcl
+          (uname))))))
 
 ================================================================================
 hello.pml
@@ -153,16 +154,19 @@ int a[5], b[5], c[5]
     (var_list
       (ivar
         (vardcl
+          (uname)
           (const_expr
             (const
               (number)))))
       (ivar
         (vardcl
+          (uname)
           (const_expr
             (const
               (number)))))
       (ivar
         (vardcl
+          (uname)
           (const_expr
             (const
               (number))))))))
