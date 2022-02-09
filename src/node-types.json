@@ -135,11 +135,26 @@
     }
   },
   {
+    "type": "c_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "number",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "ch_init",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -190,7 +205,17 @@
   {
     "type": "decl",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "one_decl",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "expr",
@@ -258,10 +283,6 @@
       "required": false,
       "types": [
         {
-          "type": "arrow",
-          "named": true
-        },
-        {
           "type": "sequence",
           "named": true
         }
@@ -288,6 +309,21 @@
     }
   },
   {
+    "type": "inst",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "const_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "ivar",
     "named": true,
     "fields": {},
@@ -295,6 +331,10 @@
       "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "c_list",
+          "named": true
+        },
         {
           "type": "ch_init",
           "named": true
@@ -463,6 +503,10 @@
           "named": true
         },
         {
+          "type": "inst",
+          "named": true
+        },
+        {
           "type": "priority",
           "named": true
         }
@@ -477,10 +521,6 @@
       "multiple": true,
       "required": false,
       "types": [
-        {
-          "type": "arrow",
-          "named": true
-        },
         {
           "type": "init",
           "named": true
@@ -771,8 +811,8 @@
     "named": false
   },
   {
-    "type": "arrow",
-    "named": true
+    "type": "active",
+    "named": false
   },
   {
     "type": "bit",
