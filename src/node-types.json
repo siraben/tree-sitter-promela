@@ -27,6 +27,10 @@
       "required": false,
       "types": [
         {
+          "type": "do",
+          "named": true
+        },
+        {
           "type": "expr",
           "named": true
         },
@@ -43,6 +47,10 @@
           "named": true
         },
         {
+          "type": "stmnt",
+          "named": true
+        },
+        {
           "type": "varref",
           "named": true
         }
@@ -54,7 +62,7 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -62,7 +70,15 @@
           "named": true
         },
         {
+          "type": "full_expr",
+          "named": true
+        },
+        {
           "type": "printf",
+          "named": true
+        },
+        {
+          "type": "rargs",
           "named": true
         },
         {
@@ -116,7 +132,7 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "oname",
@@ -124,10 +140,6 @@
         },
         {
           "type": "type",
-          "named": true
-        },
-        {
-          "type": "uname",
           "named": true
         }
       ]
@@ -177,6 +189,21 @@
         },
         {
           "type": "typ_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "claim",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "body",
           "named": true
         }
       ]
@@ -241,6 +268,21 @@
       "types": [
         {
           "type": "one_decl",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "do",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "options",
           "named": true
         }
       ]
@@ -603,6 +645,10 @@
       "required": false,
       "types": [
         {
+          "type": "claim",
+          "named": true
+        },
+        {
           "type": "init",
           "named": true
         },
@@ -957,6 +1003,10 @@
     "named": false
   },
   {
+    "type": "??",
+    "named": false
+  },
+  {
     "type": "X",
     "named": false
   },
@@ -978,6 +1028,10 @@
   },
   {
     "type": "active",
+    "named": false
+  },
+  {
+    "type": "assert",
     "named": false
   },
   {
@@ -1005,6 +1059,10 @@
     "named": true
   },
   {
+    "type": "do",
+    "named": false
+  },
+  {
     "type": "eval",
     "named": false
   },
@@ -1018,6 +1076,10 @@
   },
   {
     "type": "for",
+    "named": false
+  },
+  {
+    "type": "goto",
     "named": false
   },
   {
@@ -1049,8 +1111,16 @@
     "named": false
   },
   {
+    "type": "never",
+    "named": false
+  },
+  {
     "type": "number",
     "named": true
+  },
+  {
+    "type": "od",
+    "named": false
   },
   {
     "type": "of",

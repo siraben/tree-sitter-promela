@@ -5,20 +5,16 @@ module.exports = grammar({
         $.comment,
     ],
     conflicts: $ => [
-        // [$.step, $.one_decl],
-        [$.rarg, $.expr],
         [$.inst, $.const],
         [$.pfld, $.const],
-        // [$.const, $.vardcl],
-        // [$.cmpnd, $.varref],
-        // [$.sfld, $.varref],
+        [$.const, $.uname],
     ],
     rules: {
         program: $ => repeat($._unit),
         _unit: $ => choice(
             $.proc,
             $.init,
-            // $.claim,
+            $.claim,
             $.ltl,
             // $.eventsc,
             $.one_decl,
@@ -31,6 +27,7 @@ module.exports = grammar({
         priority: $ => seq('priority', $.const),
         init: $ => seq('init', optional($.priority), $.body),
         ltl: $ => seq('ltl',optional($._name),$.ltl_body),
+        claim: $ => seq('never', optional($._name), $.body),
         ltl_body: $ => seq('{',$.full_expr,optional($._semi),'}'),
         _semi: $ => choice(';', $._arrow),
         _arrow: $ => '->',
@@ -52,11 +49,11 @@ module.exports = grammar({
             $.expr,
             seq($.expr, ',', $.arg)
         ),
-        margs: $ => choice(
+        margs: $ => prec.left(2,choice(
             $.arg,
             seq($.expr, '(', $.arg, ')')
-        ),
-        _ms: $ => repeat1(';'),
+        )),
+        _ms: $ => repeat1($._semi),
         decl: $ => sep1($.one_decl,$._semi),
         xu: $ => choice("xr","xs"),
         vref_lst: $ => commaSep1($.varref),
@@ -75,51 +72,58 @@ module.exports = grammar({
             prec.left(16,seq($.varref, '--')),
             // seq($.set_p,'(',$.two_args,')'),
             $.printf,
+            seq('assert',$.full_expr),
+            seq($.varref,'??',$.rargs),
+            seq($.varref,'?','<',$.rargs,'>'),
+            seq($.varref,'??','<',$.rargs,'>'),
+            $.full_expr,
             // seq($.printm,'(',$.varref,')'),
             // seq($.printm,'(',$.const,')'),
         ),
         assignment: $ => seq($.varref, $._asgn, $.full_expr),
         printf: $ => seq('printf', '(', $.string, optional(seq(',', $.arg)), ')'),
         string: $ => seq('"', /(?:[^"\\]|\\.)*/, '"'),
-        Special: $ => choice(
+        Special: $ => prec.left(2,choice(
             seq($.varref, '?', $.rargs),
             prec.left(1,seq($.varref, '!', $.margs)),
             // seq($.for_pre,':',$.expr,'..',$.expr,')',$.for_post),
             // seq($.for_pre,'in',$.varref,')',$.for_post),
             seq('select','(', $.varref,':',$.expr,'..',$.expr,')'),
             $.if,
-            // seq('do',$.options,'od'),
+            $.do,
             'break',
-            // seq('goto',$.name),
-            // seq($.name,':',$.stmnt),
-            // seq($.name,':'),
+            seq('goto',$._name),
+            seq($._name,':'),
+            seq($._name,':',$.stmnt),
             // $.error
-        ),
+        )),
         rarg: $ => choice(
             $.varref,
             seq('eval','(',$.expr,')'),
             $.const,
             seq('-',$.const),
         ),
-        rargs: $ => choice(
+        rargs: $ => prec.left(1,choice(
             $.rarg,
             seq($.rarg,',',$.rargs),
             seq($.rarg,'(',$.rargs,')'),
             seq('(',$.rargs,')'),
-        ),
+        )),
         if: $ => seq('if',$.options,'fi'),
+        do: $ => seq('do',$.options,'od'),
         for_pre: $ => seq('for','(',$.varref),
         options: $ => repeat1($.option),
         option: $ => seq('::', $.sequence,optional($._semi)),
         vis: $ => choice('hidden', 'show', 'islocal'),
         osubt: $ => seq(':', $._name),
         // user defined type
-        uname: $ => /[a-zA-Z_][a-zA-Z0-9_]*/,
+        _name: $ => /[a-zA-Z_][a-zA-Z0-9_]*/,
         one_decl: $ => prec.left(1,choice(
             seq(optional($.vis), $.type, optional($.osubt), $.var_list),
             seq(optional($.vis), $.uname, $.var_list),
             seq(optional($.vis), $.type, optional($._asgn),'{',$.nlst,'}'),
         )),
+        uname: $ => $._name,
         nlst: $ => choice(
             $._name,
             seq($.nlst,$._name),
@@ -142,7 +146,6 @@ module.exports = grammar({
         ),
         varref: $ => $.cmpnd,
         cmpnd: $ => prec.left(18,sep1($.pfld,'.')),
-        _name: $ => /[a-zA-Z_][a-zA-Z0-9_]*/,
         pfld: $ => choice($._name, seq($._name, '[', $.expr, ']')),
         // sfld: $ => prec.left(1,sep1($.cmpnd, '.')),
         type: $ => choice('bit','bool','byte','chan','int','mtype','pid','short'),
@@ -176,7 +179,7 @@ module.exports = grammar({
         oname: $ => seq(':',$._name),
         basetype: $ => choice(
             seq($.type,optional($.oname)),
-            $.uname
+            $._name
         ),
         typ_list: $ => commaSep1($.basetype),
         // entries: $ => repeat1($.entry)
