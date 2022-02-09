@@ -1,5 +1,24 @@
 [
   {
+    "type": "Expr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Expr",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "Special",
     "named": true,
     "fields": {},
@@ -140,10 +159,10 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "number",
+          "type": "const",
           "named": true
         }
       ]
@@ -184,19 +203,34 @@
     }
   },
   {
+    "type": "const",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "number",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "const_expr",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "const_expr",
+          "type": "const",
           "named": true
         },
         {
-          "type": "number",
+          "type": "const_expr",
           "named": true
         }
       ]
@@ -222,34 +256,19 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "factor",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "term",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "factor",
-    "named": true,
-    "fields": {},
-    "children": {
       "multiple": true,
       "required": true,
       "types": [
         {
+          "type": "const",
+          "named": true
+        },
+        {
           "type": "expr",
+          "named": true
+        },
+        {
+          "type": "ltl_expr",
           "named": true
         }
       ]
@@ -345,6 +364,51 @@
         },
         {
           "type": "vardcl",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ltl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "ltl_body",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ltl_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "full_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ltl_expr",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
           "named": true
         }
       ]
@@ -477,10 +541,10 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "number",
+          "type": "const",
           "named": true
         }
       ]
@@ -526,6 +590,10 @@
           "named": true
         },
         {
+          "type": "ltl",
+          "named": true
+        },
+        {
           "type": "one_decl",
           "named": true
         },
@@ -542,14 +610,14 @@
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "expr",
+          "type": "const",
           "named": true
         },
         {
-          "type": "number",
+          "type": "expr",
           "named": true
         },
         {
@@ -637,21 +705,6 @@
     "fields": {}
   },
   {
-    "type": "term",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "expr",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "typ_list",
     "named": true,
     "fields": {},
@@ -700,11 +753,11 @@
       "required": false,
       "types": [
         {
-          "type": "const_expr",
+          "type": "const",
           "named": true
         },
         {
-          "type": "number",
+          "type": "const_expr",
           "named": true
         }
       ]
@@ -736,6 +789,10 @@
   },
   {
     "type": "\"",
+    "named": false
+  },
+  {
+    "type": "&&",
     "named": false
   },
   {
@@ -771,6 +828,10 @@
     "named": false
   },
   {
+    "type": "->",
+    "named": false
+  },
+  {
     "type": ".",
     "named": false
   },
@@ -791,7 +852,15 @@
     "named": false
   },
   {
+    "type": "<>",
+    "named": false
+  },
+  {
     "type": "=",
+    "named": false
+  },
+  {
+    "type": "==",
     "named": false
   },
   {
@@ -799,11 +868,15 @@
     "named": false
   },
   {
-    "type": "Expr",
-    "named": true
+    "type": "X",
+    "named": false
   },
   {
     "type": "[",
+    "named": false
+  },
+  {
+    "type": "[]",
     "named": false
   },
   {
@@ -875,6 +948,10 @@
     "named": false
   },
   {
+    "type": "ltl",
+    "named": false
+  },
+  {
     "type": "mtype",
     "named": false
   },
@@ -928,6 +1005,10 @@
   },
   {
     "type": "{",
+    "named": false
+  },
+  {
+    "type": "||",
     "named": false
   },
   {

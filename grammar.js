@@ -7,6 +7,8 @@ module.exports = grammar({
     conflicts: $ => [
         [$.step, $.one_decl],
         [$.rarg, $.expr],
+        [$.inst, $.const],
+        [$.pfld, $.const],
     ],
     rules: {
         program: $ => repeat($._unit),
@@ -14,7 +16,7 @@ module.exports = grammar({
             $.proc,
             $.init,
             // $.claim,
-            // $.ltl,
+            $.ltl,
             // $.eventsc,
             $.one_decl,
             // $.utype,
@@ -23,8 +25,10 @@ module.exports = grammar({
             $._semi,
             // $.error
         ),
-        priority: $ => seq('priority', $._const),
+        priority: $ => seq('priority', $.const),
         init: $ => seq('init', optional($.priority), $.body),
+        ltl: $ => seq('ltl',optional($._name),$.ltl_body),
+        ltl_body: $ => seq('{',$.full_expr,optional($._semi),'}'),
         _semi: $ => choice(';', $._arrow),
         _arrow: $ => '->',
         proc: $ => seq(
@@ -86,8 +90,8 @@ module.exports = grammar({
         rarg: $ => choice(
             $.varref,
             seq('eval','(',$.expr,')'),
-            $._const,
-            seq('-',$._const),
+            $.const,
+            seq('-',$.const),
         ),
         rargs: $ => choice(
             $.rarg,
@@ -116,6 +120,17 @@ module.exports = grammar({
         ),
         asgn: $ => choice(seq(':',$._name,'='),'='),
         full_expr: $ => choice($.expr, $.Expr),
+        ltl_expr: $ => choice(
+            // seq($.expr,'until',$.expr),
+            // seq($.expr,'release',$.expr),
+            // seq($.expr,'weakuntil',$.expr),
+            prec.left(2,seq($.expr,'->',$.expr)), // implies
+            // seq($.expr,'<->',$.expr), // equivalent
+            prec.left(1,seq('X',$.expr)), // next
+            prec.left(1,seq('[]',$.expr)), // always
+            prec.left(1,seq('<>',$.expr)), // eventually
+
+        ),
         varref: $ => $.cmpnd,
         cmpnd: $ => choice($.pfld,
                            // $.sfld,
@@ -125,15 +140,15 @@ module.exports = grammar({
         sfld: $ => prec.right(1, sep1($.cmpnd, '.')),
         type: $ => choice('bit','bool','byte','chan','int','mtype','pid','short'),
         var_list: $ => commaSep1($.ivar),
-        _const: $ => choice('false', 'true','skip',$.number),
+        const: $ => choice('false', 'true','skip',$.number,$._name),
         vardcl: $ => prec.right(2,choice(
             $._name,
-            seq($._name,':',$._const),
+            seq($._name,':',$.const),
             seq($._name,'[',$.const_expr,']'),
             seq($._name,'[',$._name,']'),
         )),
         const_expr: $ => choice(
-            $._const,
+            $.const,
             prec.right(3,seq('-',$.const_expr)),
             seq('(',$.const_expr,')'),
             prec.left(1,seq($.const_expr,'+',$.const_expr)),
@@ -143,7 +158,7 @@ module.exports = grammar({
             // seq($.const_expr,'%',$.const_expr),
 
         ),
-        c_list: $ => commaSep1($._const),
+        c_list: $ => commaSep1($.const),
         ivar: $ => choice(
             $.vardcl,
             seq($.vardcl,'=','{',$.c_list,'}'),
@@ -158,15 +173,51 @@ module.exports = grammar({
         ),
         typ_list: $ => commaSep1($.basetype),
         // entries: $ => repeat1($.entry)
-        expr: $ => choice(
-            $.term,
-            $.factor,
-            $._const
+        const_expr: $ => choice(
+            $.const,
+            prec.right(3,seq('-',$.const_expr)),
+            seq('(',$.const_expr,')'),
+            prec.left(1,seq($.const_expr,'+',$.const_expr)),
+            prec.left(1,seq($.const_expr,'-',$.const_expr)),
+            prec.right(2,seq($.const_expr,'*',$.const_expr)),
+            // seq($.const_expr,'/',$.const_expr),
+            // seq($.const_expr,'%',$.const_expr),
+
         ),
-        Expr: $ => 'Expr',
+        expr: $ => choice(
+            seq('(',$.expr,')'),
+            prec.left(2,seq($.expr,'+',$.expr)),
+            prec.left(2,seq($.expr,'-',$.expr)),
+            prec.left(1,seq($.expr,'*',$.expr)),
+            // prec.left(1,seq($.expr,'/',$.expr)),
+            // prec.left(1,seq($.expr,'%',$.expr)),
+            // prec.left(1,seq($.expr,'&',$.expr)),
+            // prec.left(1,seq($.expr,'^',$.expr)),
+            // prec.left(1,seq($.expr,'|',$.expr)),
+            // prec.left(1,seq($.expr,'>',$.expr)),
+            // prec.left(1,seq($.expr,'<',$.expr)),
+            // prec.left(1,seq($.expr,'>=',$.expr)),
+            // prec.left(1,seq($.expr,'<=',$.expr)),
+            prec.left(3,seq($.expr,'==',$.expr)),
+            // prec.left(1,seq($.expr,'!=',$.expr)),
+            // prec.left(1,seq($.expr,'&&',$.expr)),
+            prec.left(2,seq($.expr,'||',$.expr)),
+            // prec.left(1,seq($.expr,'<<',$.expr)),
+            // prec.left(1,seq($.expr,'>>',$.expr)),
+            $.const,
+            $.ltl_expr,
+        ),
+        Expr: $ => choice(
+            // $.Probe,
+            seq('(',$.Expr,')'),
+            prec.left(2,seq($.Expr,'&&',$.Expr)),
+            prec.left(2,seq($.Expr,'&&',$.expr)),
+            prec.left(2,seq($.expr,'&&',$.Expr)),
+            prec.left(2,seq($.Expr,'||',$.Expr)),
+            prec.left(2,seq($.Expr,'||',$.expr)),
+            prec.left(2,seq($.expr,'||',$.Expr)),
+        ),
         number: $ => /\d+/,
-        factor: $ => prec.left(2, seq($.expr, '*', $.expr)),
-        term: $ => prec.left(1, seq($.expr, '+', $.expr)),
         comment: $ => token(choice(
             seq('//', /.*/),
             seq(

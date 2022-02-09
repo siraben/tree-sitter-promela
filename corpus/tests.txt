@@ -32,7 +32,7 @@ x = 3;
               (pfld)))
           (full_expr
             (expr
-              (number))))))))
+              (const))))))))
 
 ================================================================================
 Declaring multiple variables
@@ -97,7 +97,7 @@ fi
                         (pfld)))
                     (full_expr
                       (expr
-                        (number))))))))
+                        (const))))))))
           (sequence
             (step
               (stmnt
@@ -108,7 +108,7 @@ fi
                         (pfld)))
                     (full_expr
                       (expr
-                        (number)))))))))))))
+                        (const)))))))))))))
 
 ================================================================================
 mtype declaration
@@ -157,3 +157,32 @@ active proctype cr() {}
   (proc
     (inst)
     (body)))
+
+================================================================================
+ltl
+================================================================================
+
+ltl alwayserr { [] ((statusa == err) || (statusb == err)) }
+
+--------------------------------------------------------------------------------
+
+(program
+  (ltl
+    (ltl_body
+      (full_expr
+        (expr
+          (ltl_expr
+            (expr
+              (expr
+                (expr
+                  (expr
+                    (expr
+                      (const))
+                    (expr
+                      (const))))
+                (expr
+                  (expr
+                    (expr
+                      (const))
+                    (expr
+                      (const))))))))))))
