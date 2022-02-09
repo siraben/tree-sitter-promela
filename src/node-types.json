@@ -1,5 +1,52 @@
 [
   {
+    "type": "Special",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "Stmnt",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "full_expr",
+          "named": true
+        },
+        {
+          "type": "printf",
+          "named": true
+        },
+        {
+          "type": "varref",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "arg",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "arg",
+          "named": true
+        },
+        {
+          "type": "expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "body",
     "named": true,
     "fields": {},
@@ -92,6 +139,25 @@
     }
   },
   {
+    "type": "init",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "body",
+          "named": true
+        },
+        {
+          "type": "priority",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "one_decl",
     "named": true,
     "fields": {},
@@ -101,6 +167,10 @@
       "types": [
         {
           "type": "full_expr",
+          "named": true
+        },
+        {
+          "type": "osubt",
           "named": true
         },
         {
@@ -123,6 +193,11 @@
     }
   },
   {
+    "type": "osubt",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "pfld",
     "named": true,
     "fields": {},
@@ -136,6 +211,30 @@
         }
       ]
     }
+  },
+  {
+    "type": "printf",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "arg",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "priority",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "proc",
@@ -169,6 +268,10 @@
           "named": true
         },
         {
+          "type": "init",
+          "named": true
+        },
+        {
           "type": "one_decl",
           "named": true
         },
@@ -184,15 +287,43 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
           "type": "one_decl",
           "named": true
+        },
+        {
+          "type": "stmnt",
+          "named": true
         }
       ]
     }
+  },
+  {
+    "type": "stmnt",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "Special",
+          "named": true
+        },
+        {
+          "type": "Stmnt",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "string",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "term",
@@ -240,6 +371,10 @@
     "fields": {}
   },
   {
+    "type": "\"",
+    "named": false
+  },
+  {
     "type": "(",
     "named": false
   },
@@ -256,11 +391,23 @@
     "named": false
   },
   {
+    "type": "++",
+    "named": false
+  },
+  {
     "type": ",",
     "named": false
   },
   {
+    "type": "--",
+    "named": false
+  },
+  {
     "type": ".",
+    "named": false
+  },
+  {
+    "type": ":",
     "named": false
   },
   {
@@ -288,11 +435,23 @@
     "named": true
   },
   {
+    "type": "break",
+    "named": false
+  },
+  {
     "type": "comment",
     "named": true
   },
   {
+    "type": "const",
+    "named": false
+  },
+  {
     "type": "hidden",
+    "named": false
+  },
+  {
+    "type": "init",
     "named": false
   },
   {
@@ -304,11 +463,23 @@
     "named": true
   },
   {
+    "type": "printf",
+    "named": false
+  },
+  {
+    "type": "priority",
+    "named": false
+  },
+  {
     "type": "proctype",
     "named": false
   },
   {
     "type": "show",
+    "named": false
+  },
+  {
+    "type": "unless",
     "named": false
   },
   {

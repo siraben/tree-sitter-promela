@@ -38,3 +38,22 @@ Crypt data, intercepted;
 ---
 
 (program (one_decl (type) (var_list)))
+
+===
+hello.pml
+===
+
+init {
+	printf("passed first test!")
+}
+
+---
+
+(program
+  (init
+    (body
+      (step
+        (stmnt
+          (Stmnt
+            (printf (string))))))))
+
