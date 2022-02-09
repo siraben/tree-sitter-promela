@@ -6,6 +6,7 @@ module.exports = grammar({
     ],
     conflicts: $ => [
         [$.step, $.one_decl],
+        [$.rarg, $.expr],
     ],
     rules: {
         program: $ => repeat($._unit),
@@ -81,8 +82,8 @@ module.exports = grammar({
         rarg: $ => choice(
             $.varref,
             seq('eval','(',$.expr,')'),
-            'const',
-            seq('-','const'),
+            $._const,
+            seq('-',$._const),
         ),
         rargs: $ => choice(
             $.rarg,
@@ -161,7 +162,7 @@ module.exports = grammar({
         expr: $ => choice(
             $.term,
             $.factor,
-            $.number
+            $._const
         ),
         Expr: $ => 'Expr',
         number: $ => /\d+/,

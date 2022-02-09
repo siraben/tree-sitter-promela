@@ -555,8 +555,8 @@
           ]
         },
         {
-          "type": "STRING",
-          "value": "const"
+          "type": "SYMBOL",
+          "name": "_const"
         },
         {
           "type": "SEQ",
@@ -566,8 +566,8 @@
               "value": "-"
             },
             {
-              "type": "STRING",
-              "value": "const"
+              "type": "SYMBOL",
+              "name": "_const"
             }
           ]
         }
@@ -1423,7 +1423,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "number"
+          "name": "_const"
         }
       ]
     },
@@ -1542,6 +1542,10 @@
     [
       "step",
       "one_decl"
+    ],
+    [
+      "rarg",
+      "expr"
     ]
   ],
   "precedences": [],
