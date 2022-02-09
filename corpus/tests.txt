@@ -1,0 +1,40 @@
+===
+Comment
+===
+
+// this is a comment
+
+/*
+  Multi-line comment
+*/
+
+---
+
+(program (comment) (comment))
+
+===
+Single assignment
+===
+
+x = 3;
+
+---
+
+(program
+  (one_decl
+    (varref
+      (cmpnd
+        (pfld)))
+    (full_expr
+      (expr
+        (number)))))
+
+===
+Declaring multiple variables
+===
+
+Crypt data, intercepted;
+
+---
+
+(program (one_decl (type) (var_list)))

@@ -165,6 +165,10 @@
       "required": false,
       "types": [
         {
+          "type": "arrow",
+          "named": true
+        },
+        {
           "type": "one_decl",
           "named": true
         },
@@ -278,6 +282,10 @@
   {
     "type": "]",
     "named": false
+  },
+  {
+    "type": "arrow",
+    "named": true
   },
   {
     "type": "comment",

@@ -18,8 +18,29 @@
         {
           "type": "SYMBOL",
           "name": "one_decl"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_semi"
         }
       ]
+    },
+    "_semi": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": ";"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "arrow"
+        }
+      ]
+    },
+    "arrow": {
+      "type": "STRING",
+      "value": "->"
     },
     "proc": {
       "type": "CHOICE",
@@ -64,8 +85,8 @@
                 "name": "step"
               },
               {
-                "type": "STRING",
-                "value": ";"
+                "type": "SYMBOL",
+                "name": "_ms"
               }
             ]
           }
@@ -75,6 +96,13 @@
           "value": "}"
         }
       ]
+    },
+    "_ms": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "STRING",
+        "value": ";"
+      }
     },
     "decl": {
       "type": "SEQ",

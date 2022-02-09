@@ -16,14 +16,17 @@ module.exports = grammar({
             // $.utype,
             // $.c_fcts,
             // $.ns,
-            // $.semi,
+            $._semi,
             // $.error
         ),
+        _semi: $ => choice(';',$.arrow),
+        arrow: $ => '->',
         proc: $ => choice(
             seq(// optional($.inst),
                 'proctype', /\w+/, $.decl, $.body)
         ),
-        body: $ => seq('{',repeat(seq($.step,';')),'}'),
+        body: $ => seq('{',repeat(seq($.step,$._ms)),'}'),
+        _ms: $ => repeat1(';'),
         decl: $ => seq('(',
                        // optional($.entries),
                        ')'),
