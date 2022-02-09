@@ -5,10 +5,13 @@ module.exports = grammar({
         $.comment,
     ],
     conflicts: $ => [
-        [$.step, $.one_decl],
+        // [$.step, $.one_decl],
         [$.rarg, $.expr],
         [$.inst, $.const],
         [$.pfld, $.const],
+        // [$.const, $.vardcl],
+        // [$.cmpnd, $.varref],
+        // [$.sfld, $.varref],
     ],
     rules: {
         program: $ => repeat($._unit),
@@ -44,7 +47,7 @@ module.exports = grammar({
             seq('active','[',$._name,']'),
         ),
         body: $ => seq('{', repeat(seq($.step, optional($._ms))), '}'),
-        sequence: $ => prec.left(2,sep1($.step,optional($._ms))),
+        sequence: $ => prec.left(4,sep1($.step,optional($._ms))),
         arg: $ => choice(
             $.expr,
             seq($.expr, ',', $.arg)
@@ -55,27 +58,32 @@ module.exports = grammar({
         ),
         _ms: $ => repeat1(';'),
         decl: $ => sep1($.one_decl,$._semi),
-        step: $ => choice(
+        xu: $ => choice("xr","xs"),
+        vref_lst: $ => commaSep1($.varref),
+        step: $ => prec.right(3,choice(
             $.one_decl,
+            seq($.xu, $.vref_lst),
+            seq($._name,':',$.one_decl),
+            seq($._name,':',$.xu),
             $.stmnt,
             seq($.stmnt, 'unless', $.stmnt),
-        ),
+        )),
         stmnt: $ => choice($.Special, $.Stmnt),
         Stmnt: $ => choice(
             $.assignment,
-            seq($.varref, '++'),
-            seq($.varref, '--'),
+            prec.left(16,seq($.varref, '++')),
+            prec.left(16,seq($.varref, '--')),
             // seq($.set_p,'(',$.two_args,')'),
             $.printf,
             // seq($.printm,'(',$.varref,')'),
             // seq($.printm,'(',$.const,')'),
         ),
-        assignment: $ => seq($.varref, '=', $.full_expr),
+        assignment: $ => seq($.varref, $._asgn, $.full_expr),
         printf: $ => seq('printf', '(', $.string, optional(seq(',', $.arg)), ')'),
         string: $ => seq('"', /(?:[^"\\]|\\.)*/, '"'),
         Special: $ => choice(
             seq($.varref, '?', $.rargs),
-            seq($.varref, '!', $.margs),
+            prec.left(1,seq($.varref, '!', $.margs)),
             // seq($.for_pre,':',$.expr,'..',$.expr,')',$.for_post),
             // seq($.for_pre,'in',$.varref,')',$.for_post),
             seq('select','(', $.varref,':',$.expr,'..',$.expr,')'),
@@ -99,49 +107,48 @@ module.exports = grammar({
             seq($.rarg,'(',$.rargs,')'),
             seq('(',$.rargs,')'),
         ),
-        if: $ => seq('if',repeat(seq('::',$.sequence,optional($._semi))),'fi'),
+        if: $ => seq('if',$.options,'fi'),
         for_pre: $ => seq('for','(',$.varref),
-        // options: $ => sep1($.option),
-        // option: $ => choice('::', seq($.sequence,optional($._semi))),
+        options: $ => repeat1($.option),
+        option: $ => seq('::', $.sequence,optional($._semi)),
         vis: $ => choice('hidden', 'show', 'islocal'),
         osubt: $ => seq(':', $._name),
         // user defined type
-        uname: $ => /\w+/,
-        one_decl: $ => choice(
+        uname: $ => /[a-zA-Z_][a-zA-Z0-9_]*/,
+        one_decl: $ => prec.left(1,choice(
             seq(optional($.vis), $.type, optional($.osubt), $.var_list),
             seq(optional($.vis), $.uname, $.var_list),
-            seq(optional($.vis), $.type, optional($.asgn),'{',$.nlst,'}'),
-            $.stmnt,
-        ),
+            seq(optional($.vis), $.type, optional($._asgn),'{',$.nlst,'}'),
+        )),
         nlst: $ => choice(
             $._name,
             seq($.nlst,$._name),
             seq($.nlst,','),
         ),
-        asgn: $ => choice(seq(':',$._name,'='),'='),
+        _asgn: $ => prec.right(1,choice(seq(':',$._name,'='),'=')),
         full_expr: $ => choice($.expr, $.Expr),
         ltl_expr: $ => choice(
+            // prec 6
             // seq($.expr,'until',$.expr),
             // seq($.expr,'release',$.expr),
             // seq($.expr,'weakuntil',$.expr),
+            // end prec 6
             prec.left(2,seq($.expr,'->',$.expr)), // implies
-            // seq($.expr,'<->',$.expr), // equivalent
-            prec.left(1,seq('X',$.expr)), // next
-            prec.left(1,seq('[]',$.expr)), // always
-            prec.left(1,seq('<>',$.expr)), // eventually
+            prec.left(2,seq($.expr,'<->',$.expr)), // equivalent
+            prec.right(7,seq('X',$.expr)), // next
+            prec.left(5,seq('[]',$.expr)), // always
+            prec.left(5,seq('<>',$.expr)), // eventually
 
         ),
         varref: $ => $.cmpnd,
-        cmpnd: $ => choice($.pfld,
-                           // $.sfld,
-                          ),
-        _name: $ => /\w+/,
+        cmpnd: $ => prec.left(18,sep1($.pfld,'.')),
+        _name: $ => /[a-zA-Z_][a-zA-Z0-9_]*/,
         pfld: $ => choice($._name, seq($._name, '[', $.expr, ']')),
-        sfld: $ => prec.right(1, sep1($.cmpnd, '.')),
+        // sfld: $ => prec.left(1,sep1($.cmpnd, '.')),
         type: $ => choice('bit','bool','byte','chan','int','mtype','pid','short'),
         var_list: $ => commaSep1($.ivar),
         const: $ => choice('false', 'true','skip',$.number,$._name),
-        vardcl: $ => prec.right(2,choice(
+        vardcl: $ => prec.left(2,choice(
             $._name,
             seq($._name,':',$.const),
             seq($._name,'[',$.const_expr,']'),
@@ -149,7 +156,7 @@ module.exports = grammar({
         )),
         const_expr: $ => choice(
             $.const,
-            prec.right(3,seq('-',$.const_expr)),
+            prec.right(17,seq('-',$.const_expr)), // negation
             seq('(',$.const_expr,')'),
             prec.left(1,seq($.const_expr,'+',$.const_expr)),
             prec.left(1,seq($.const_expr,'-',$.const_expr)),
@@ -159,12 +166,12 @@ module.exports = grammar({
 
         ),
         c_list: $ => commaSep1($.const),
-        ivar: $ => choice(
+        ivar: $ => prec.left(2,choice(
             $.vardcl,
             seq($.vardcl,'=','{',$.c_list,'}'),
             seq($.vardcl,'=',$.expr),
             seq($.vardcl,'=',$.ch_init),
-        ),
+        )),
         ch_init: $ => seq('[',$.const_expr,']','of', '{',$.typ_list,'}'),
         oname: $ => seq(':',$._name),
         basetype: $ => choice(
@@ -186,36 +193,36 @@ module.exports = grammar({
         ),
         expr: $ => choice(
             seq('(',$.expr,')'),
-            prec.left(2,seq($.expr,'+',$.expr)),
-            prec.left(2,seq($.expr,'-',$.expr)),
-            prec.left(1,seq($.expr,'*',$.expr)),
-            // prec.left(1,seq($.expr,'/',$.expr)),
-            // prec.left(1,seq($.expr,'%',$.expr)),
-            // prec.left(1,seq($.expr,'&',$.expr)),
-            // prec.left(1,seq($.expr,'^',$.expr)),
-            // prec.left(1,seq($.expr,'|',$.expr)),
-            // prec.left(1,seq($.expr,'>',$.expr)),
-            // prec.left(1,seq($.expr,'<',$.expr)),
-            // prec.left(1,seq($.expr,'>=',$.expr)),
-            // prec.left(1,seq($.expr,'<=',$.expr)),
-            prec.left(3,seq($.expr,'==',$.expr)),
-            // prec.left(1,seq($.expr,'!=',$.expr)),
-            // prec.left(1,seq($.expr,'&&',$.expr)),
-            prec.left(2,seq($.expr,'||',$.expr)),
-            // prec.left(1,seq($.expr,'<<',$.expr)),
-            // prec.left(1,seq($.expr,'>>',$.expr)),
+            prec.left(14,seq($.expr,'+',$.expr)),
+            prec.left(14,seq($.expr,'-',$.expr)),
+            prec.left(15,seq($.expr,'*',$.expr)),
+            prec.left(15,seq($.expr,'/',$.expr)),
+            prec.left(15,seq($.expr,'%',$.expr)),
+            prec.left(10,seq($.expr,'&',$.expr)),
+            prec.left(9,seq($.expr,'^',$.expr)),
+            prec.left(8,seq($.expr,'|',$.expr)),
+            prec.left(12,seq($.expr,'>',$.expr)),
+            prec.left(12,seq($.expr,'<',$.expr)),
+            prec.left(12,seq($.expr,'>=',$.expr)),
+            prec.left(12,seq($.expr,'<=',$.expr)),
+            prec.left(11,seq($.expr,'==',$.expr)),
+            prec.left(11,seq($.expr,'!=',$.expr)),
+            prec.left(4,seq($.expr,'&&',$.expr)),
+            prec.left(3,seq($.expr,'||',$.expr)),
+            prec.left(13,seq($.expr,'<<',$.expr)),
+            prec.left(13,seq($.expr,'>>',$.expr)),
             $.const,
             $.ltl_expr,
         ),
         Expr: $ => choice(
             // $.Probe,
             seq('(',$.Expr,')'),
-            prec.left(2,seq($.Expr,'&&',$.Expr)),
-            prec.left(2,seq($.Expr,'&&',$.expr)),
-            prec.left(2,seq($.expr,'&&',$.Expr)),
-            prec.left(2,seq($.Expr,'||',$.Expr)),
-            prec.left(2,seq($.Expr,'||',$.expr)),
-            prec.left(2,seq($.expr,'||',$.Expr)),
+            prec.left(4,seq($.Expr,'&&',$.Expr)),
+            prec.left(4,seq($.Expr,'&&',$.expr)),
+            prec.left(4,seq($.expr,'&&',$.Expr)),
+            prec.left(3,seq($.Expr,'||',$.Expr)),
+            prec.left(3,seq($.Expr,'||',$.expr)),
+            prec.left(3,seq($.expr,'||',$.Expr)),
         ),
         number: $ => /\d+/,
         comment: $ => token(choice(

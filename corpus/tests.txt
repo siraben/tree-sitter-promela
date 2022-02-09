@@ -18,21 +18,26 @@ Comment
 Single assignment
 ================================================================================
 
-x = 3;
+init {
+  x = 3;
+}
 
 --------------------------------------------------------------------------------
 
 (program
-  (one_decl
-    (stmnt
-      (Stmnt
-        (assignment
-          (varref
-            (cmpnd
-              (pfld)))
-          (full_expr
-            (expr
-              (const))))))))
+  (init
+    (body
+      (step
+        (stmnt
+          (Stmnt
+            (assignment
+              (varref
+                (cmpnd
+                  (pfld)))
+              (full_expr
+                (expr
+                  (const
+                    (number)))))))))))
 
 ================================================================================
 Declaring multiple variables
@@ -74,41 +79,50 @@ init {
 If statement
 ================================================================================
 
-if
-:: value = 3;
-:: value = 4;
-fi
+init {
+  if
+  :: value = 3;
+  :: value = 4;
+  fi
+}
 
 
 --------------------------------------------------------------------------------
 
 (program
-  (one_decl
-    (stmnt
-      (Special
-        (if
-          (sequence
-            (step
-              (stmnt
-                (Stmnt
-                  (assignment
-                    (varref
-                      (cmpnd
-                        (pfld)))
-                    (full_expr
-                      (expr
-                        (const))))))))
-          (sequence
-            (step
-              (stmnt
-                (Stmnt
-                  (assignment
-                    (varref
-                      (cmpnd
-                        (pfld)))
-                    (full_expr
-                      (expr
-                        (const)))))))))))))
+  (init
+    (body
+      (step
+        (stmnt
+          (Special
+            (if
+              (options
+                (option
+                  (sequence
+                    (step
+                      (stmnt
+                        (Stmnt
+                          (assignment
+                            (varref
+                              (cmpnd
+                                (pfld)))
+                            (full_expr
+                              (expr
+                                (const
+                                  (number))))))))))
+                (option
+                  (sequence
+                    (step
+                      (stmnt
+                        (Stmnt
+                          (assignment
+                            (varref
+                              (cmpnd
+                                (pfld)))
+                            (full_expr
+                              (expr
+                                (const
+                                  (number))))))))))))))))))
 
 ================================================================================
 mtype declaration
@@ -121,7 +135,6 @@ mtype = { operator, value }
 (program
   (one_decl
     (type)
-    (asgn)
     (nlst
       (nlst
         (nlst)))))
@@ -139,11 +152,20 @@ int a[5], b[5], c[5]
     (type)
     (var_list
       (ivar
-        (vardcl))
+        (vardcl
+          (const_expr
+            (const
+              (number)))))
       (ivar
-        (vardcl))
+        (vardcl
+          (const_expr
+            (const
+              (number)))))
       (ivar
-        (vardcl)))))
+        (vardcl
+          (const_expr
+            (const
+              (number))))))))
 
 ================================================================================
 proctype
@@ -186,3 +208,29 @@ ltl alwayserr { [] ((statusa == err) || (statusb == err)) }
                       (const))
                     (expr
                       (const))))))))))))
+
+================================================================================
+dotted assignment
+================================================================================
+
+init {
+  intercepted.key = 3;
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (init
+    (body
+      (step
+        (stmnt
+          (Stmnt
+            (assignment
+              (varref
+                (cmpnd
+                  (pfld)
+                  (pfld)))
+              (full_expr
+                (expr
+                  (const
+                    (number)))))))))))
