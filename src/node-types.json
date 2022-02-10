@@ -35,6 +35,14 @@
           "named": true
         },
         {
+          "type": "for_post",
+          "named": true
+        },
+        {
+          "type": "for_pre",
+          "named": true
+        },
+        {
           "type": "if",
           "named": true
         },
@@ -103,6 +111,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "aname",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "arg",
@@ -251,6 +264,10 @@
         {
           "type": "number",
           "named": true
+        },
+        {
+          "type": "skip",
+          "named": true
         }
       ]
     }
@@ -325,8 +342,16 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
+        {
+          "type": "aname",
+          "named": true
+        },
+        {
+          "type": "arg",
+          "named": true
+        },
         {
           "type": "const",
           "named": true
@@ -337,6 +362,48 @@
         },
         {
           "type": "ltl_expr",
+          "named": true
+        },
+        {
+          "type": "priority",
+          "named": true
+        },
+        {
+          "type": "rargs",
+          "named": true
+        },
+        {
+          "type": "varref",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "for_post",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "sequence",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "for_pre",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "varref",
           "named": true
         }
       ]
@@ -1157,6 +1224,10 @@
     "named": false
   },
   {
+    "type": "enabled",
+    "named": false
+  },
+  {
     "type": "eval",
     "named": false
   },
@@ -1173,6 +1244,10 @@
     "named": false
   },
   {
+    "type": "get_priority",
+    "named": false
+  },
+  {
     "type": "goto",
     "named": false
   },
@@ -1182,6 +1257,10 @@
   },
   {
     "type": "if",
+    "named": false
+  },
+  {
+    "type": "in",
     "named": false
   },
   {
@@ -1201,6 +1280,10 @@
     "named": false
   },
   {
+    "type": "len",
+    "named": false
+  },
+  {
     "type": "ltl",
     "named": false
   },
@@ -1214,6 +1297,10 @@
   },
   {
     "type": "notrace",
+    "named": false
+  },
+  {
+    "type": "np_",
     "named": false
   },
   {
@@ -1245,6 +1332,14 @@
     "named": false
   },
   {
+    "type": "return",
+    "named": false
+  },
+  {
+    "type": "run",
+    "named": false
+  },
+  {
     "type": "select",
     "named": false
   },
@@ -1258,6 +1353,10 @@
   },
   {
     "type": "skip",
+    "named": true
+  },
+  {
+    "type": "timeout",
     "named": false
   },
   {
@@ -1298,6 +1397,10 @@
   },
   {
     "type": "}",
+    "named": false
+  },
+  {
+    "type": "~",
     "named": false
   }
 ]

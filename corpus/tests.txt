@@ -203,15 +203,23 @@ ltl alwayserr { [] ((statusa == err) || (statusb == err)) }
                 (expr
                   (expr
                     (expr
-                      (const))
+                      (varref
+                        (cmpnd
+                          (pfld))))
                     (expr
-                      (const))))
+                      (varref
+                        (cmpnd
+                          (pfld))))))
                 (expr
                   (expr
                     (expr
-                      (const))
+                      (varref
+                        (cmpnd
+                          (pfld))))
                     (expr
-                      (const))))))))))))
+                      (varref
+                        (cmpnd
+                          (pfld))))))))))))))
 
 ================================================================================
 dotted assignment
@@ -238,3 +246,35 @@ init {
                 (expr
                   (const
                     (number)))))))))))
+
+================================================================================
+for loop
+================================================================================
+init {
+	for (i in a) { skip }
+}
+
+--------------------------------------------------------------------------------
+
+(program
+  (init
+    (body
+      (step
+        (stmnt
+          (Special
+            (for_pre
+              (varref
+                (cmpnd
+                  (pfld))))
+            (varref
+              (cmpnd
+                (pfld)))
+            (for_post
+              (sequence
+                (step
+                  (stmnt
+                    (Stmnt
+                      (full_expr
+                        (expr
+                          (const
+                            (skip)))))))))))))))
