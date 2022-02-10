@@ -5,10 +5,6 @@ module.exports = grammar({
         $.comment,
     ],
     conflicts: $ => [
-        [$.inst, $.const],
-        [$.pfld, $.const],
-        [$.const, $.uname],
-        [$.const, $.iname],
     ],
     rules: {
         program: $ => repeat($._unit),

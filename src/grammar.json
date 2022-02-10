@@ -3293,24 +3293,7 @@
       "name": "comment"
     }
   ],
-  "conflicts": [
-    [
-      "inst",
-      "const"
-    ],
-    [
-      "pfld",
-      "const"
-    ],
-    [
-      "const",
-      "uname"
-    ],
-    [
-      "const",
-      "iname"
-    ]
-  ],
+  "conflicts": [],
   "precedences": [],
   "externals": [],
   "inline": [],
