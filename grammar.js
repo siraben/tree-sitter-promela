@@ -195,14 +195,13 @@ module.exports = grammar({
         aname: $ => $._name,
         const_expr: $ => choice(
             $.const,
-            prec.right(3,seq('-',$.const_expr)),
+            prec.right(17,seq('-',$.const_expr)),
             seq('(',$.const_expr,')'),
-            prec.left(1,seq($.const_expr,'+',$.const_expr)),
-            prec.left(1,seq($.const_expr,'-',$.const_expr)),
-            prec.right(2,seq($.const_expr,'*',$.const_expr)),
-            // seq($.const_expr,'/',$.const_expr),
-            // seq($.const_expr,'%',$.const_expr),
-
+            prec.left(14,seq($.const_expr,'+',$.const_expr)),
+            prec.left(14,seq($.const_expr,'-',$.const_expr)),
+            prec.left(15,seq($.const_expr,'*',$.const_expr)),
+            prec.left(15,seq($.const_expr,'/',$.const_expr)),
+            prec.left(15,seq($.const_expr,'%',$.const_expr)),
         ),
         expr: $ => choice(
             seq('(',$.expr,')'),
