@@ -63,8 +63,16 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
+        {
+          "type": "Stmnt",
+          "named": true
+        },
+        {
+          "type": "arg",
+          "named": true
+        },
         {
           "type": "assignment",
           "named": true
@@ -74,11 +82,19 @@
           "named": true
         },
         {
+          "type": "iname",
+          "named": true
+        },
+        {
           "type": "printf",
           "named": true
         },
         {
           "type": "rargs",
+          "named": true
+        },
+        {
+          "type": "sequence",
           "named": true
         },
         {
@@ -289,6 +305,21 @@
     }
   },
   {
+    "type": "events",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "body",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "expr",
     "named": true,
     "fields": {},
@@ -344,6 +375,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "iname",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "init",
@@ -480,6 +516,21 @@
       "types": [
         {
           "type": "nlst",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ns",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "arg",
           "named": true
         }
       ]
@@ -645,11 +696,19 @@
           "named": true
         },
         {
+          "type": "events",
+          "named": true
+        },
+        {
           "type": "init",
           "named": true
         },
         {
           "type": "ltl",
+          "named": true
+        },
+        {
+          "type": "ns",
           "named": true
         },
         {
@@ -1058,6 +1117,10 @@
     "named": false
   },
   {
+    "type": "atomic",
+    "named": false
+  },
+  {
     "type": "bit",
     "named": false
   },
@@ -1082,7 +1145,15 @@
     "named": true
   },
   {
+    "type": "d_step",
+    "named": false
+  },
+  {
     "type": "do",
+    "named": false
+  },
+  {
+    "type": "else",
     "named": false
   },
   {
@@ -1118,6 +1189,10 @@
     "named": false
   },
   {
+    "type": "inline",
+    "named": false
+  },
+  {
     "type": "int",
     "named": false
   },
@@ -1135,6 +1210,10 @@
   },
   {
     "type": "never",
+    "named": false
+  },
+  {
+    "type": "notrace",
     "named": false
   },
   {
@@ -1179,6 +1258,10 @@
   },
   {
     "type": "skip",
+    "named": false
+  },
+  {
+    "type": "trace",
     "named": false
   },
   {
