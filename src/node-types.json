@@ -110,6 +110,10 @@
           "named": true
         },
         {
+          "type": "two_args",
+          "named": true
+        },
+        {
           "type": "varref",
           "named": true
         }
@@ -900,6 +904,21 @@
     "fields": {}
   },
   {
+    "type": "two_args",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "typ_list",
     "named": true,
     "fields": {},
@@ -1343,6 +1362,10 @@
   },
   {
     "type": "select",
+    "named": false
+  },
+  {
+    "type": "set_priority",
     "named": false
   },
   {

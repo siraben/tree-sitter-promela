@@ -70,7 +70,7 @@ module.exports = grammar({
             $.assignment,
             prec.left(16,seq($.varref, '++')),
             prec.left(16,seq($.varref, '--')),
-            // seq($.set_p,'(',$.two_args,')'),
+            seq('set_priority','(',$.two_args,')'),
             $.printf,
             seq('assert',$.full_expr),
             // $.ccode,
@@ -191,6 +191,7 @@ module.exports = grammar({
             $._name
         ),
         typ_list: $ => commaSep1($.basetype),
+        two_args: $ => seq($.expr,',',$.expr),
         // entries: $ => repeat1($.entry)
         aname: $ => $._name,
         const_expr: $ => choice(
