@@ -306,3 +306,32 @@ init {
               (ivar
                 (vardcl
                   (uname))))))))))
+
+===
+Subsequent variable declarations
+===
+
+init {
+  mtype pkey;
+  mtype pnonce;
+}
+
+---
+(program
+  (init
+    (body
+      (sequence
+        (step
+          (one_decl
+            (type)
+            (var_list
+              (ivar
+                (vardcl
+                  (uname))))))
+        (step
+          (one_decl
+            (type)
+            (var_list
+              (ivar
+                (vardcl
+                  (uname))))))))))
