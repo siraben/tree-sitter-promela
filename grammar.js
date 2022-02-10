@@ -175,14 +175,13 @@ module.exports = grammar({
         )),
         const_expr: $ => choice(
             $.const,
-            prec.right(17,seq('-',$.const_expr)), // negation
+            prec.left(14,seq('-',$.const_expr)), // negation
             seq('(',$.const_expr,')'),
-            prec.left(1,seq($.const_expr,'+',$.const_expr)),
-            prec.left(1,seq($.const_expr,'-',$.const_expr)),
-            prec.right(2,seq($.const_expr,'*',$.const_expr)),
-            // seq($.const_expr,'/',$.const_expr),
-            // seq($.const_expr,'%',$.const_expr),
-
+            prec.left(14,seq($.const_expr,'+',$.const_expr)),
+            prec.left(14,seq($.const_expr,'-',$.const_expr)),
+            prec.left(15,seq($.const_expr,'*',$.const_expr)),
+            prec.left(15,seq($.const_expr,'/',$.const_expr)),
+            prec.left(15,seq($.const_expr,'%',$.const_expr)),
         ),
         c_list: $ => commaSep1($.const),
         ivar: $ => prec.left(2,choice(
