@@ -27,6 +27,14 @@
       "required": false,
       "types": [
         {
+          "type": "Special",
+          "named": true
+        },
+        {
+          "type": "Stmnt",
+          "named": true
+        },
+        {
           "type": "do",
           "named": true
         },
@@ -52,10 +60,6 @@
         },
         {
           "type": "rargs",
-          "named": true
-        },
-        {
-          "type": "stmnt",
           "named": true
         },
         {
@@ -179,11 +183,11 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
-          "type": "step",
+          "type": "sequence",
           "named": true
         }
       ]
@@ -576,17 +580,7 @@
   {
     "type": "nlst",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "nlst",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "ns",
@@ -859,11 +853,15 @@
       "required": true,
       "types": [
         {
-          "type": "one_decl",
+          "type": "Special",
           "named": true
         },
         {
-          "type": "stmnt",
+          "type": "Stmnt",
+          "named": true
+        },
+        {
+          "type": "one_decl",
           "named": true
         },
         {
@@ -872,25 +870,6 @@
         },
         {
           "type": "xu",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "stmnt",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "Special",
-          "named": true
-        },
-        {
-          "type": "Stmnt",
           "named": true
         }
       ]

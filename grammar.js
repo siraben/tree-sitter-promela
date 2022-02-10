@@ -42,8 +42,8 @@ module.exports = grammar({
             seq('active','[',$.const_expr,']'),
             seq('active','[',$._name,']'),
         ),
-        body: $ => seq('{', repeat(seq($.step, optional($._ms))), '}'),
-        sequence: $ => prec.left(4,sep1($.step,optional($._ms))),
+        body: $ => seq('{', $.sequence, optional($._ms), '}'),
+        sequence: $ => prec.left(1,sep1($.step,$._ms)),
         arg: $ => choice(
             $.expr,
             seq($.expr, ',', $.arg)
@@ -61,10 +61,10 @@ module.exports = grammar({
             seq($.xu, $.vref_lst),
             seq($._name,':',$.one_decl),
             seq($._name,':',$.xu),
-            $.stmnt,
-            seq($.stmnt, 'unless', $.stmnt),
+            $._stmnt,
+            seq($._stmnt, 'unless', $._stmnt),
         ),
-        stmnt: $ => choice($.Special, $.Stmnt),
+        _stmnt: $ => choice($.Special, $.Stmnt),
         Stmnt: $ => choice(
             $.assignment,
             prec.left(16,seq($.varref, '++')),
@@ -102,7 +102,7 @@ module.exports = grammar({
             'break',
             seq('goto',$._name),
             seq($._name,':'),
-            seq($._name,':',$.stmnt),
+            seq($._name,':',$._stmnt),
         )),
         rarg: $ => choice(
             $.varref,
@@ -135,11 +135,7 @@ module.exports = grammar({
             seq(optional($.vis), $.type, optional($._asgn),'{',$.nlst,'}'),
         ),
         uname: $ => $._name,
-        nlst: $ => choice(
-            $._name,
-            seq($.nlst,$._name),
-            seq($.nlst,','),
-        ),
+        nlst: $ => sep1($._name,optional(',')),
         _asgn: $ => prec.right(1,choice(seq(':',$._name,'='),'=')),
         full_expr: $ => choice($.expr, $.Expr),
         ltl_expr: $ => choice(

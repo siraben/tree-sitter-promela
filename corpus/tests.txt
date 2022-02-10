@@ -27,8 +27,8 @@ init {
 (program
   (init
     (body
-      (step
-        (stmnt
+      (sequence
+        (step
           (Stmnt
             (assignment
               (varref
@@ -70,8 +70,8 @@ init {
 (program
   (init
     (body
-      (step
-        (stmnt
+      (sequence
+        (step
           (Stmnt
             (printf
               (string))))))))
@@ -93,37 +93,35 @@ init {
 (program
   (init
     (body
-      (step
-        (stmnt
+      (sequence
+        (step
           (Special
             (if
               (options
                 (option
                   (sequence
                     (step
-                      (stmnt
-                        (Stmnt
-                          (assignment
-                            (varref
-                              (cmpnd
-                                (pfld)))
-                            (full_expr
-                              (expr
-                                (const
-                                  (number))))))))))
+                      (Stmnt
+                        (assignment
+                          (varref
+                            (cmpnd
+                              (pfld)))
+                          (full_expr
+                            (expr
+                              (const
+                                (number)))))))))
                 (option
                   (sequence
                     (step
-                      (stmnt
-                        (Stmnt
-                          (assignment
-                            (varref
-                              (cmpnd
-                                (pfld)))
-                            (full_expr
-                              (expr
-                                (const
-                                  (number))))))))))))))))))
+                      (Stmnt
+                        (assignment
+                          (varref
+                            (cmpnd
+                              (pfld)))
+                          (full_expr
+                            (expr
+                              (const
+                                (number)))))))))))))))))
 
 ================================================================================
 mtype declaration
@@ -136,9 +134,7 @@ mtype = { operator, value }
 (program
   (one_decl
     (type)
-    (nlst
-      (nlst
-        (nlst)))))
+    (nlst)))
 
 ================================================================================
 array declaration
@@ -175,14 +171,21 @@ int a[5], b[5], c[5]
 proctype
 ================================================================================
 
-active proctype cr() {}
+active proctype cr() { skip }
 
 --------------------------------------------------------------------------------
 
 (program
   (proc
     (inst)
-    (body)))
+    (body
+      (sequence
+        (step
+          (Stmnt
+            (full_expr
+              (expr
+                (const
+                  (skip))))))))))
 
 ================================================================================
 ltl
@@ -234,8 +237,8 @@ init {
 (program
   (init
     (body
-      (step
-        (stmnt
+      (sequence
+        (step
           (Stmnt
             (assignment
               (varref
@@ -259,8 +262,8 @@ init {
 (program
   (init
     (body
-      (step
-        (stmnt
+      (sequence
+        (step
           (Special
             (for_pre
               (varref
@@ -272,22 +275,22 @@ init {
             (for_post
               (sequence
                 (step
-                  (stmnt
-                    (Stmnt
-                      (full_expr
-                        (expr
-                          (const
-                            (skip)))))))))))))))
+                  (Stmnt
+                    (full_expr
+                      (expr
+                        (const
+                          (skip))))))))))))))
 
-===
+================================================================================
 Declaration of variable of custom in body
-===
+================================================================================
 Crypt x;
 init {
   Crypt x;
 }
 
----
+--------------------------------------------------------------------------------
+
 (program
   (one_decl
     (var_list
@@ -296,9 +299,10 @@ init {
           (uname)))))
   (init
     (body
-      (step
-        (one_decl
-          (var_list
-            (ivar
-              (vardcl
-               (uname)))))))))
+      (sequence
+        (step
+          (one_decl
+            (var_list
+              (ivar
+                (vardcl
+                  (uname))))))))))
