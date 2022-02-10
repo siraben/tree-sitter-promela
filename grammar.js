@@ -5,6 +5,7 @@ module.exports = grammar({
         $.comment,
     ],
     conflicts: $ => [
+        [$.sequence]
     ],
     rules: {
         program: $ => repeat($._unit),
@@ -43,15 +44,15 @@ module.exports = grammar({
             seq('active','[',$._name,']'),
         ),
         body: $ => seq('{', $.sequence, optional($._ms), '}'),
-        sequence: $ => prec.left(1,sep1($.step,$._ms)),
+        sequence: $ => sep1($.step,$._ms),
         arg: $ => choice(
             $.expr,
             seq($.expr, ',', $.arg)
         ),
-        margs: $ => prec.left(2,choice(
+        margs: $ => choice(
             $.arg,
             seq($.expr, '(', $.arg, ')')
-        )),
+        ),
         _ms: $ => repeat1($._semi),
         decl: $ => sep1($.one_decl,$._semi),
         xu: $ => choice("xr","xs"),
@@ -91,9 +92,9 @@ module.exports = grammar({
         assignment: $ => seq($.varref, $._asgn, $.full_expr),
         printf: $ => seq('printf', '(', $.string, optional(seq(',', $.arg)), ')'),
         string: $ => seq('"', /(?:[^"\\]|\\.)*/, '"'),
-        Special: $ => prec.left(2,choice(
+        Special: $ => prec.right(1,choice(
             seq($.varref, '?', $.rargs),
-            prec.left(1,seq($.varref, '!', $.margs)),
+            seq($.varref, '!', $.margs),
             seq($.for_pre,':',$.expr,'..',$.expr,')',$.for_post),
             seq($.for_pre,'in',$.varref,')',$.for_post),
             seq('select','(', $.varref,':',$.expr,'..',$.expr,')'),
