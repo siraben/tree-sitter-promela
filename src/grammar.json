@@ -336,6 +336,18 @@
           ]
         },
         {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "enabler"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
           "type": "SYMBOL",
           "name": "body"
         }
@@ -2317,6 +2329,27 @@
         {
           "type": "STRING",
           "value": "}"
+        }
+      ]
+    },
+    "enabler": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "provided"
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "SYMBOL",
+          "name": "full_expr"
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         }
       ]
     },

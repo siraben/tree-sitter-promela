@@ -34,7 +34,7 @@ module.exports = grammar({
             optional($.inst),
             'proctype', $._name, '(',optional($.decl),')',
             optional($.priority),
-            // optional($.enabler),
+            optional($.enabler),
             $.body,
         ),
         inst: $ => choice(
@@ -183,6 +183,7 @@ module.exports = grammar({
             seq($.vardcl,'=',$.ch_init),
         )),
         ch_init: $ => seq('[',$.const_expr,']','of', '{',$.typ_list,'}'),
+        enabler: $ => seq('provided','(',$.full_expr,')'),
         oname: $ => seq(':',$._name),
         basetype: $ => choice(
             seq($.type,optional($.oname)),
