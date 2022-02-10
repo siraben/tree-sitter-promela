@@ -56,14 +56,14 @@ module.exports = grammar({
         decl: $ => sep1($.one_decl,$._semi),
         xu: $ => choice("xr","xs"),
         vref_lst: $ => commaSep1($.varref),
-        step: $ => prec.right(3,choice(
+        step: $ => choice(
             $.one_decl,
             seq($.xu, $.vref_lst),
             seq($._name,':',$.one_decl),
             seq($._name,':',$.xu),
             $.stmnt,
             seq($.stmnt, 'unless', $.stmnt),
-        )),
+        ),
         stmnt: $ => choice($.Special, $.Stmnt),
         Stmnt: $ => choice(
             $.assignment,
@@ -129,11 +129,11 @@ module.exports = grammar({
         osubt: $ => seq(':', $._name),
         // user defined type
         _name: $ => /[a-zA-Z_][a-zA-Z0-9_]*/,
-        one_decl: $ => prec.left(1,choice(
+        one_decl: $ => choice(
             seq(optional($.vis), $.type, optional($.osubt), $.var_list),
             seq(optional($.vis), alias($.uname,'type'), $.var_list),
             seq(optional($.vis), $.type, optional($._asgn),'{',$.nlst,'}'),
-        )),
+        ),
         uname: $ => $._name,
         nlst: $ => choice(
             $._name,

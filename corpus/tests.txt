@@ -62,7 +62,7 @@ hello.pml
 ================================================================================
 
 init {
-	printf("passed first test!")
+    printf("passed first test!")
 }
 
 --------------------------------------------------------------------------------
@@ -251,7 +251,7 @@ init {
 for loop
 ================================================================================
 init {
-	for (i in a) { skip }
+    for (i in a) { skip }
 }
 
 --------------------------------------------------------------------------------
@@ -278,3 +278,27 @@ init {
                         (expr
                           (const
                             (skip)))))))))))))))
+
+===
+Declaration of variable of custom in body
+===
+Crypt x;
+init {
+  Crypt x;
+}
+
+---
+(program
+  (one_decl
+    (var_list
+      (ivar
+        (vardcl
+          (uname)))))
+  (init
+    (body
+      (step
+        (one_decl
+          (var_list
+            (ivar
+              (vardcl
+               (uname)))))))))
