@@ -9,8 +9,8 @@ However, the tooling behind it is underdeveloped—existing highlighting
 for the language are often regex-based and not suitable for reuse in
 other tools such as linters and formatters.  Having a tree-sitter
 grammar for the language would provide a reusable foundation for
-building, especially since tree-sitter [provides several language
-bindings](https://tree-sitter.github.io/tree-sitter/#language-bindings).
+building, especially since tree-sitter [provides bindings
+in other languages](https://tree-sitter.github.io/tree-sitter/#language-bindings).
 
 ## Current status
 Most of the grammar has been implemented, I'm currently parsing
