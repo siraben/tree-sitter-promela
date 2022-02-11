@@ -243,7 +243,7 @@ module.exports = grammar({
             $.ltl_expr,
         ),
         Expr: $ => choice(
-            // $.Probe,
+            $.Probe,
             seq('(',$.Expr,')'),
             prec.left(4,seq($.Expr,'&&',$.Expr)),
             prec.left(4,seq($.Expr,'&&',$.expr)),
@@ -251,6 +251,12 @@ module.exports = grammar({
             prec.left(3,seq($.Expr,'||',$.Expr)),
             prec.left(3,seq($.Expr,'||',$.expr)),
             prec.left(3,seq($.expr,'||',$.Expr)),
+        ),
+        Probe: $ => choice(
+            seq('full','(',$.varref,')'),
+            seq('nfull','(',$.varref,')'),
+            seq('empty','(',$.varref,')'),
+            seq('nempty','(',$.varref,')'),
         ),
         number: $ => /\d+/,
         comment: $ => token(choice(

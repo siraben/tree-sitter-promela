@@ -12,7 +12,26 @@
           "named": true
         },
         {
+          "type": "Probe",
+          "named": true
+        },
+        {
           "type": "expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "Probe",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "varref",
           "named": true
         }
       ]
@@ -1261,6 +1280,10 @@
     "named": false
   },
   {
+    "type": "empty",
+    "named": false
+  },
+  {
     "type": "enabled",
     "named": false
   },
@@ -1278,6 +1301,10 @@
   },
   {
     "type": "for",
+    "named": false
+  },
+  {
+    "type": "full",
     "named": false
   },
   {
@@ -1329,7 +1356,15 @@
     "named": false
   },
   {
+    "type": "nempty",
+    "named": false
+  },
+  {
     "type": "never",
+    "named": false
+  },
+  {
+    "type": "nfull",
     "named": false
   },
   {
