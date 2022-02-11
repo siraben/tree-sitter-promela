@@ -140,11 +140,9 @@ module.exports = grammar({
         _asgn: $ => choice(seq(':',$._name,'='),'='),
         full_expr: $ => choice($.expr, $.Expr),
         ltl_expr: $ => choice(
-            // prec 6
-            // seq($.expr,'until',$.expr),
-            // seq($.expr,'release',$.expr),
-            // seq($.expr,'weakuntil',$.expr),
-            // end prec 6
+            prec.left(6,seq($.expr,'U',$.expr)), // until
+            prec.left(6,seq($.expr,'V',$.expr)), // release
+            prec.left(6,seq($.expr,'W',$.expr)), // weak until
             prec.left(2,seq($.expr,'->',$.expr)), // implies
             prec.left(2,seq($.expr,'<->',$.expr)), // equivalent
             prec.right(7,seq('X',$.expr)), // next
@@ -155,7 +153,6 @@ module.exports = grammar({
         varref: $ => $.cmpnd,
         cmpnd: $ => prec.left(18,sep1($.pfld,'.')),
         pfld: $ => prec.left(10,choice($._name, seq($._name, '[', $.expr, ']'))),
-        // sfld: $ => prec.left(1,sep1($.cmpnd, '.')),
         type: $ => choice('bit','bool','byte','chan','int','mtype','pid','short'),
         var_list: $ => commaSep1($.ivar),
         const: $ => choice('false','true',$.skip,$.number),
@@ -192,7 +189,6 @@ module.exports = grammar({
         ),
         typ_list: $ => commaSep1($.basetype),
         two_args: $ => seq($.expr,',',$.expr),
-        // entries: $ => repeat1($.entry)
         aname: $ => $._name,
         const_expr: $ => choice(
             $.const,
