@@ -2,7 +2,7 @@
 
 mtype = { operator, value }
 
-chan f = [N] of { mtype, int }
+chan f = [12] of { mtype, int }
 
 proctype calc(chan you)
 {	int s, lft, rgt

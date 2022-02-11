@@ -375,3 +375,25 @@ init {
                 (expr
                   (const
                     (number)))))))))))
+
+===
+channel declaration
+===
+
+chan f = [12] of { int }
+
+---
+(program
+  (one_decl
+    (type)
+    (var_list
+      (ivar
+        (vardcl
+          (uname))
+        (ch_init
+          (const_expr
+            (const
+              (number)))
+          (typ_list
+            (basetype
+              (type))))))))
