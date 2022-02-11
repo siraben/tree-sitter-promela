@@ -26,8 +26,9 @@ $ npm run build && tree-sitter test
 ## Contributing
 You don't need to know JavaScript or specific details about
 tree-sitter to help out!  Try running the parser on real Promela
-programs and open an issue if the parser failed where it should be
-succeeding.
+programs and open an
+[issue](https://github.com/siraben/tree-sitter-promela/issues) if the
+parser failed where it should be succeeding.
 
 
 ## References
