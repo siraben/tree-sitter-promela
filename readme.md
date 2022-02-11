@@ -2,6 +2,8 @@
 Promela grammar for
 [tree-sitter](https://github.com/tree-sitter/tree-sitter).
 
+![Example querying](./example.png)
+
 ## Motivation
 [Promela](https://en.wikipedia.org/wiki/Promela) is a language used
 for specifying models, especially in distributed systems contexts.
