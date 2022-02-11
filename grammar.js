@@ -132,7 +132,7 @@ module.exports = grammar({
         option: $ => seq('::', $.sequence,optional($._semi)),
         vis: $ => choice('hidden', 'show', 'islocal'),
         osubt: $ => seq(':', $.uname),
-        // user defined type
+        // user defined name
         uname: $ => /[a-zA-Z_][a-zA-Z0-9_]*/,
         one_decl: $ => choice(
             seq(optional($.vis), $.type, optional($.osubt), $.var_list),

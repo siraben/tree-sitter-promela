@@ -41,5 +41,7 @@
 
 ["bit" "bool" "byte" "chan" "int" "mtype" "pid" "short"] @type
 
+(number) @number
+
 (uname) @variable.builtin
 (varref) @variable.builtin
