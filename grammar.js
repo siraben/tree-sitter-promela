@@ -137,7 +137,7 @@ module.exports = grammar({
         ),
         uname: $ => $._name,
         nlst: $ => sep1($._name,optional(',')),
-        _asgn: $ => prec.right(1,choice(seq(':',$._name,'='),'=')),
+        _asgn: $ => choice(seq(':',$._name,'='),'='),
         full_expr: $ => choice($.expr, $.Expr),
         ltl_expr: $ => choice(
             // prec 6
