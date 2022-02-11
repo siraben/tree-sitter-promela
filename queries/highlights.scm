@@ -4,7 +4,7 @@
  "active"
  "assert"
  "atomic"
- "break"
+ (break)
  "d_step"
  ;; "D_proctype"
  "do"
@@ -41,4 +41,5 @@
 
 ["bit" "bool" "byte" "chan" "int" "mtype" "pid" "short"] @type
 
-((uname) @variable.builtin)
+(uname) @variable.builtin
+(varref) @variable.builtin

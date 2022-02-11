@@ -1,6 +1,6 @@
 init {
     if 
     :: skip;
-    fi
+    fi;
     skip
 }
