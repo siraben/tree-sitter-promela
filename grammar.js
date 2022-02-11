@@ -92,7 +92,7 @@ module.exports = grammar({
         assignment: $ => seq($.varref, $._asgn, $.full_expr),
         printf: $ => seq('printf', '(', $.string, optional(seq(',', $.arg)), ')'),
         string: $ => seq('"', /(?:[^"\\]|\\.)*/, '"'),
-        Special: $ => prec.right(1,choice(
+        Special: $ => choice(
             seq($.varref, '?', $.rargs),
             seq($.varref, '!', $.margs),
             seq($.for_pre,':',$.expr,'..',$.expr,')',$.for_post),
@@ -104,7 +104,7 @@ module.exports = grammar({
             seq('goto',$._name),
             seq($._name,':'),
             seq($._name,':',$._stmnt),
-        )),
+        ),
         rarg: $ => choice(
             $.varref,
             seq('eval','(',$.expr,')'),
@@ -160,12 +160,12 @@ module.exports = grammar({
         var_list: $ => commaSep1($.ivar),
         const: $ => choice('false','true',$.skip,$.number),
         skip: $ => 'skip',
-        vardcl: $ => prec.left(2,choice(
+        vardcl: $ => choice(
             $.uname,
             seq($.uname,':',$.const),
             seq($.uname,'[',$.const_expr,']'),
             seq($.uname,'[',$.uname,']'),
-        )),
+        ),
         const_expr: $ => choice(
             $.const,
             prec.left(14,seq('-',$.const_expr)), // negation
@@ -177,12 +177,12 @@ module.exports = grammar({
             prec.left(15,seq($.const_expr,'%',$.const_expr)),
         ),
         c_list: $ => commaSep1($.const),
-        ivar: $ => prec.left(2,choice(
+        ivar: $ => choice(
             $.vardcl,
             seq($.vardcl,'=','{',$.c_list,'}'),
             seq($.vardcl,'=',$.expr),
             seq($.vardcl,'=',$.ch_init),
-        )),
+        ),
         ch_init: $ => seq('[',$.const_expr,']','of', '{',$.typ_list,'}'),
         enabler: $ => seq('provided','(',$.full_expr,')'),
         oname: $ => seq(':',$._name),
