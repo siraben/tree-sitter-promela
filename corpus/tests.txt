@@ -337,45 +337,6 @@ init {
                 (vardcl
                   (uname))))))))))
 
-================================================================================
-If block without semicolon
-================================================================================
-init {
-    if 
-    :: skip;
-    fi
-    x = 3;
-}
-
---------------------------------------------------------------------------------
-
-(program
-  (init
-    (body
-      (sequence
-        (step
-          (Special
-            (if
-              (options
-                (option
-                  (sequence
-                    (step
-                      (Stmnt
-                        (full_expr
-                          (expr
-                            (const
-                              (skip))))))))))))
-        (step
-          (Stmnt
-            (assignment
-              (varref
-                (cmpnd
-                  (pfld)))
-              (full_expr
-                (expr
-                  (const
-                    (number)))))))))))
-
 ===
 channel declaration
 ===
