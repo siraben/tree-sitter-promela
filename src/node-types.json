@@ -388,6 +388,10 @@
           "named": true
         },
         {
+          "type": "pfld",
+          "named": true
+        },
+        {
           "type": "priority",
           "named": true
         },
@@ -1173,6 +1177,10 @@
     "named": false
   },
   {
+    "type": "@",
+    "named": false
+  },
+  {
     "type": "X",
     "named": false
   },
@@ -1330,6 +1338,10 @@
   },
   {
     "type": "of",
+    "named": false
+  },
+  {
+    "type": "pc_value",
     "named": false
   },
   {
